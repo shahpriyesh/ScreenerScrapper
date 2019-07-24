@@ -1,7 +1,8 @@
 import requests
+import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+
 
 class ScreenerScrapper():
     def __init__(self, url):
@@ -11,12 +12,17 @@ class ScreenerScrapper():
         self.soup = BeautifulSoup(self.response.text, "html.parser")
 
     def scrapUsingSelenium(self):
-        self.driver.implicitly_wait(30)
+        self.driver.implicitly_wait(5)
         self.driver.get(self.url)
-        python_button = self.driver.find_element(By.XPATH, '//*[@id="quarters"]/div/table/tbody/tr[1]/td[1]/button')
-        python_button.click()
+
+        python_buttons = self.driver.find_elements_by_class_name('show-schedules')
+        for python_button in python_buttons:
+            python_button.click()
+
+        self.driver.switch_to_window(self.driver.window_handles[0])
+        time.sleep(3)
         self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        print(self.soup.prettify())
+
         self.driver.quit()
 
     def getTitle(self):
@@ -28,7 +34,7 @@ class ScreenerScrapper():
         # result variable
         table_info = {}
         # Names of tables present in the page that we are scrapping
-        table_names = ["quarterlyPL","Income Statement","","","","Balance Sheet","Cash Flow Statement","Ratios"]
+        table_names = ["","quarterlyPL","Income Statement","","","","Balance Sheet","Cash Flow Statement","Ratios"]
         # extract all the tables present in page
         tables = self.soup.findAll('table')
 
@@ -72,8 +78,9 @@ class ScreenerScrapper():
                         table_row_info[output_row[0].strip()] = output_row[1:]
 
                 curr_list.append(table_row_info)
-                print(curr_list)
+
                 table_info[table_names[idx]] = curr_list
+
             idx = idx+1
 
         # This returns a dictionary of list of dictionaries (whose values are lists)
@@ -89,7 +96,7 @@ class ScreenerScrapper():
 
 url = "https://www.screener.in/company/CAPLIPOINT/consolidated/"
 object = ScreenerScrapper(url)
-#print(object.getTitle())
 object.scrapUsingSelenium()
+print(object.getTitle())
 dict = object.extractTables()
 object.printExtractedTable(dict)
