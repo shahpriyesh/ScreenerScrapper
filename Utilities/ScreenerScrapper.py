@@ -1,12 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
-import pprint
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 class ScreenerScrapper():
     def __init__(self, url):
         self.url = url
         self.response = requests.get(url)
+        self.driver = webdriver.Chrome("/usr/local/bin/chromedriver")
         self.soup = BeautifulSoup(self.response.text, "html.parser")
+
+    def scrapUsingSelenium(self):
+        self.driver.implicitly_wait(30)
+        self.driver.get(self.url)
+        python_button = self.driver.find_element(By.XPATH, '//*[@id="quarters"]/div/table/tbody/tr[1]/td[1]/button')
+        python_button.click()
+        self.soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        print(self.soup.prettify())
+        self.driver.quit()
 
     def getTitle(self):
         title = self.soup.find('title')
@@ -61,7 +72,7 @@ class ScreenerScrapper():
                         table_row_info[output_row[0].strip()] = output_row[1:]
 
                 curr_list.append(table_row_info)
-
+                print(curr_list)
                 table_info[table_names[idx]] = curr_list
             idx = idx+1
 
@@ -78,6 +89,7 @@ class ScreenerScrapper():
 
 url = "https://www.screener.in/company/CAPLIPOINT/consolidated/"
 object = ScreenerScrapper(url)
-print(object.getTitle())
+#print(object.getTitle())
+object.scrapUsingSelenium()
 dict = object.extractTables()
-print(dict['Balance Sheet'][1]['Other Liabilities'][4])
+object.printExtractedTable(dict)
