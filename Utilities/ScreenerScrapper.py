@@ -5,7 +5,6 @@ import math
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-SAMPLE_SIZE = 8
 
 class ScreenerScrapper():
     def __init__(self, url):
@@ -39,15 +38,20 @@ class ScreenerScrapper():
         # result variable
         self.table_info = {}
 
+        # Find Title of company
+        title_tag = self.soup.find("h1")
+        self.table_info['title'] = title_tag.text.strip()
+
         # Find all the front information about stock
-        front_info = self.soup.findAll(class_='four columns')
-        for info in front_info:
-            key = info.text
+        front_info_tags = self.soup.findAll(class_='four columns')
+        for info in front_info_tags:
+            vals = info.text.split(':')
+            key = vals[0].strip()
             try:
-                value = info.find(b).text
+                value = vals[1].strip()
             except:
                 value = ''
-            print(key, value)
+            self.table_info[key] = value
 
         # Names of tables present in the page that we are scrapping
         table_names = ["","quarterlyPL","Income Statement","","","","Balance Sheet","Cash Flow Statement","Ratios"]
@@ -105,154 +109,14 @@ class ScreenerScrapper():
     def printExtractedTable(self, dict):
         for key, val in dict.items():
             print(key, "=>")
-            for item in val:
-                for inner_key, inner_val in item.items():
-                    print(inner_key, "=>", inner_val)
+            if isinstance(val, list):
+                for item in val:
+                    for inner_key, inner_val in item.items():
+                        print(inner_key, "=>", inner_val)
+            else:
+                print(val)
+            print('\n\n')
 
-
-def getIncome(table_info):
-    response = {}
-
-    response['head'] = sliceList(table_info['Income Statement'][0]['head'])
-
-    response['Sales'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Sales']))
-    response['YoY_Growth'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['Sales Growth %']))
-    response['5yr_Sales_CAGR'] = []
-
-    response['Expenses'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Expenses']))
-    response['Material_Cost'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['Material Cost %']))
-    response['Employee_Cost'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['Employee Cost %']))
-    response['Manufacturing_Cost'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['Manufacturing Cost %']))
-    response['Other_Cost'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['Other Cost %']))
-
-    response['Operating_Profit'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Operating Profit']))
-    response['OPM'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['OPM %']))
-
-    response['Other_Income'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Other Income']))
-
-    response['Interest'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Interest']))
-    response['Interest_to_Revenue'] = []
-
-    response['Depreciation'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Depreciation']))
-    response['Depreciation_to_Revenue'] = []
-
-    response['PBT'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Profit before tax']))
-
-    response['Tax'] = cleanupPercentage(sliceList(table_info['Income Statement'][1]['Tax %']))
-
-    response['PAT'] = cleanupComma(sliceList(table_info['Income Statement'][1]['Net Profit']))
-    response['5yr_PAT_CAGR'] = []
-
-    response['EPS'] = cleanupComma(sliceList(table_info['Income Statement'][1]['EPS in Rs']))
-    response['EPS_Growth'] = []
-
-    for idx in range(len(response['head'])):
-
-        response['Interest_to_Revenue'].append(round(response['Interest'][idx]/response['Sales'][idx], 2) * 100)
-
-        response['Depreciation_to_Revenue'].append(round(response['Depreciation'][idx] / response['Sales'][idx], 2) * 100)
-
-    for idx in range(len(response['head'])):
-        if (idx - 4) >= 0:
-            response['5yr_Sales_CAGR'].append(round( (float((float(response['Sales'][idx] / response['Sales'][(idx-4)]) ** float(1/5))) - 1)*100, 2))
-            response['5yr_PAT_CAGR'].append(round( (float((float(response['PAT'][idx] / response['PAT'][(idx - 4)]) ** float(1 / 5))) - 1) * 100, 2))
-        if (idx - 1) >= 0:
-            response['EPS_Growth'].append(growthCalculation(response['EPS'][idx], response['EPS'][idx-1]))
-        else:
-            response['EPS_Growth'].append(0)
-
-    return response
-
-
-def getQuarter(table_info):
-    response = {}
-
-    response['head'] = sliceList(table_info['quarterlyPL'][0]['head'], 0)
-
-    response['Sales'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Sales'], 0))
-    response['YoY_Growth'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['Sales Growth %'], 0))
-    response['5yr_Sales_CAGR'] = []
-
-    response['Expenses'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Expenses'], 0))
-    if 'Material Cost %' in table_info['quarterlyPL'][1]:
-        response['Material_Cost'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['Material Cost %'], 0))
-    if 'Employee Cost %' in table_info['quarterlyPL'][1]:
-        response['Employee_Cost'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['Employee Cost %'], 0))
-    if 'Manufacturing Cost %' in table_info['quarterlyPL'][1]:
-        response['Manufacturing_Cost'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['Manufacturing Cost %'], 0))
-    if 'Other Cost %' in table_info['quarterlyPL'][1]:
-        response['Other_Cost'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['Other Cost %'], 0))
-
-    response['Operating_Profit'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Operating Profit'], 0))
-    response['OPM'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['OPM %'], 0))
-
-    response['Other_Income'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Other Income'], 0))
-
-    response['Interest'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Interest'], 0))
-    response['Interest_to_Revenue'] = []
-
-    response['Depreciation'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Depreciation'], 0))
-    response['Depreciation_to_Revenue'] = []
-
-    response['PBT'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Profit before tax'], 0))
-
-    response['Tax'] = cleanupPercentage(sliceList(table_info['quarterlyPL'][1]['Tax %'], 0))
-
-    response['PAT'] = cleanupComma(sliceList(table_info['quarterlyPL'][1]['Net Profit'], 0))
-    response['5yr_PAT_CAGR'] = []
-
-    response['Face_Value'] = 1
-    response['Equity'] = cleanupComma(sliceList(table_info['Balance Sheet'][1]['Share Capital'], 0))
-
-    response['EPS'] = []
-    response['EPS_Growth'] = []
-
-    for idx in range(len(response['head'])):
-
-        response['EPS'].append(round(response['PAT'][idx]/response['Equity'][idx], 2) * response['Face_Value'])
-
-        response['Interest_to_Revenue'].append(round(response['Interest'][idx]/response['Sales'][idx], 2) * 100)
-
-        response['Depreciation_to_Revenue'].append(round(response['Depreciation'][idx] / response['Sales'][idx], 2) * 100)
-
-    for idx in range(len(response['head'])):
-        if (idx - 4) >= 0:
-            response['5yr_Sales_CAGR'].append(round( (float((float(response['Sales'][idx] / response['Sales'][(idx-4)]) ** float(1/5))) - 1)*100, 2))
-            response['5yr_PAT_CAGR'].append(round( (float((float(response['PAT'][idx] / response['PAT'][(idx - 4)]) ** float(1 / 5))) - 1) * 100, 2))
-        if (idx - 1) >= 0:
-            response['EPS_Growth'].append(growthCalculation(response['EPS'][idx], response['EPS'][idx-1]))
-        else:
-            response['EPS_Growth'].append(0)
-
-    return response
-
-
-def sliceList(dataList, TTM_element_size = 1):
-    length = len(dataList) - TTM_element_size
-    if length > SAMPLE_SIZE:
-        return dataList[length-SAMPLE_SIZE:length]
-    else:
-        return ['1'] * (SAMPLE_SIZE-length) + dataList[0:length]
-
-
-def cleanupComma(dataList):
-    for idx in range(len(dataList)):
-        dataList[idx] = re.sub(',', '', dataList[idx])
-        dataList[idx] = float(dataList[idx])
-    return dataList
-
-
-def cleanupPercentage(dataList):
-    for idx in range(len(dataList)):
-        dataList[idx] = re.sub('%', '', dataList[idx])
-        if dataList[idx] == '':
-            dataList[idx] = '0'
-        dataList[idx] = float(dataList[idx])
-    return dataList
-
-
-def growthCalculation(x, y):
-    return round(((x - y) / y) * 100, 2)
 
 #url = "https://www.screener.in/company/CAPLIPOINT/consolidated/"
 #object = ScreenerScrapper(url)

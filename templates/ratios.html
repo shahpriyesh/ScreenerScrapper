@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block chart-insert %}
+
+<!-- Following is ROE chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Return On Equity');
+      data.addColumn('number', 'Return On Capital Employed');
+      data.addColumn('number', 'Return On Assets');
+
+      {% for year, ROE, ROCE, ROA in ROElist %}
+        data.addRow(['{{ year }}', {{ ROE }}, {{ ROCE }}, {{ ROA }}]);
+      {% endfor %}
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                       { calc: "stringify",
+                         sourceColumn: 2,
+                         type: "string",
+                         role: "annotation" },
+                         3,
+                       { calc: "stringify",
+                         sourceColumn: 3,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Return On Equity Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "bottom" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+        colors: ['gold', 'silver', '#cd7f32']
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("ROE_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Debt to Equity chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Debt to Equity');
+      data.addColumn({type:'string', role:'style'});
+
+      {% for x, y in DElist %}
+        {% if y > 0.8 %}
+            data.addRow(['{{ x }}', {{ y }}, "red"]);
+        {% else %}
+            data.addRow(['{{ x }}', {{ y }}, "green"]);
+        {% endif %}
+      {% endfor %}
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                         ]);
+
+      var options = {
+        title: "Debt to Equity",
+        vAxis: {title: 'Percentage'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("DE_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Degree of Financial Leverage chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Degree of Financial Leverage');
+      data.addColumn({type:'string', role:'style'});
+
+      {% for x, y in DOFLlist %}
+        {% if y > 1.2 %}
+            data.addRow(['{{ x }}', {{ y }}, "red"]);
+        {% else %}
+            data.addRow(['{{ x }}', {{ y }}, "green"]);
+        {% endif %}
+      {% endfor %}
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                         ]);
+
+      var options = {
+        title: "Degree of Financial Leverage",
+        vAxis: {title: 'Percentage'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("DOFL_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="ROE_chart" style="height: 500px;"></div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="DE_chart" style="height: 500px;"></div>
+        </div>
+        <div class="col-lg">
+            <div id="DOFL_chart" style="height: 500px;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

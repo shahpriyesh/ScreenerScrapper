@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block chart-insert %}
+<!-- Following is Dividend Payout chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Dividend Payout', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Dividend_Payout.0 }}, "green"],
+          ['{{ dict.head.1 }}',  {{ dict.Dividend_Payout.1 }}, "green"],
+          ['{{ dict.head.2 }}',  {{ dict.Dividend_Payout.2 }}, "green"],
+          ['{{ dict.head.3 }}',  {{ dict.Dividend_Payout.3 }}, "green"],
+          ['{{ dict.head.4 }}',  {{ dict.Dividend_Payout.4 }}, "green"],
+          ['{{ dict.head.5 }}',  {{ dict.Dividend_Payout.5 }}, "green"],
+          ['{{ dict.head.6 }}',  {{ dict.Dividend_Payout.6 }}, "green"],
+          ['{{ dict.head.7 }}',  {{ dict.Dividend_Payout.7 }}, "green"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Dividend Payout Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Dividend_Payout_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="Dividend_Payout_chart" style="height: 500px;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

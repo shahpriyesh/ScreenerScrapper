@@ -35,6 +35,8 @@
         hAxis: {title: 'Year'},
         bar: {groupWidth: "80%"},
         legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("EPS_chart"));
       chart.draw(view, options);
@@ -97,7 +99,9 @@
         vAxis: {title: 'Rupees (Cr)'},
         hAxis: {title: 'Year'},
         bar: {groupWidth: "80%"},
-        legend: { position: "none" },
+        legend: { position: "bottom" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("income_chart"));
       chart.draw(view, options);
@@ -111,14 +115,14 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', 'YoY_Sales_Growth', 'YoY_EPS_Growth'],
-          ['{{ dict.head.1 }}',  {{ dict.YoY_Growth.1 }},  {{ dict.EPS_Growth.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.YoY_Growth.2 }},  {{ dict.EPS_Growth.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.YoY_Growth.3 }},  {{ dict.EPS_Growth.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.YoY_Growth.4 }},  {{ dict.EPS_Growth.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.YoY_Growth.5 }},  {{ dict.EPS_Growth.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.YoY_Growth.6 }},  {{ dict.EPS_Growth.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.YoY_Growth.7 }},  {{ dict.EPS_Growth.7 }}]
+          ['Year', 'YoY_Sales_Growth', 'YoY_EPS_Growth', 'YoY_Expenses_Growth'],
+          ['{{ dict.head.1 }}',  {{ dict.YoY_Growth.1 }},  {{ dict.EPS_Growth.1 }}, {{ dict.Expenses_Growth.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.YoY_Growth.2 }},  {{ dict.EPS_Growth.2 }}, {{ dict.Expenses_Growth.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.YoY_Growth.3 }},  {{ dict.EPS_Growth.3 }}, {{ dict.Expenses_Growth.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.YoY_Growth.4 }},  {{ dict.EPS_Growth.4 }}, {{ dict.Expenses_Growth.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.YoY_Growth.5 }},  {{ dict.EPS_Growth.5 }}, {{ dict.Expenses_Growth.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.YoY_Growth.6 }},  {{ dict.EPS_Growth.6 }}, {{ dict.Expenses_Growth.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.YoY_Growth.7 }},  {{ dict.EPS_Growth.7 }}, {{ dict.Expenses_Growth.7 }}]
         ]);
 
       var view = new google.visualization.DataView(data);
@@ -129,7 +133,12 @@
                          role: "annotation" },
                          2,
                        { calc: "stringify",
-                         sourceColumn: 1,
+                         sourceColumn: 2,
+                         type: "string",
+                         role: "annotation" },
+                         3,
+                       { calc: "stringify",
+                         sourceColumn: 3,
                          type: "string",
                          role: "annotation" },
                          ]);
@@ -139,6 +148,8 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Percentage'},
             hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('growth_chart'));
@@ -178,6 +189,8 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Percentage'},
             hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('5yr_CAGR_chart'));
@@ -232,7 +245,9 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Year'},
             hAxis: {title: 'Percentage'},
-            isStacked: true
+            isStacked: true,
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.BarChart(document.getElementById('cost_breakup_chart'));
@@ -272,9 +287,52 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Percentage'},
             hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('OPM_chart'));
+
+      chart.draw(view, options);
+    }
+</script>
+
+<!-- Following is NPM chart -->
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'NPM'],
+          ['{{ dict.head.0 }}',  {{ dict.NPM.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.NPM.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.NPM.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.NPM.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.NPM.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.NPM.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.NPM.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.NPM.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" }
+                         ]);
+
+        var options = {
+            title: 'NPM',
+            legend: { position: 'bottom' },
+            vAxis: {title: 'Percentage'},
+            hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
+        };
+
+      var chart = new google.visualization.LineChart(document.getElementById('NPM_chart'));
 
       chart.draw(view, options);
     }
@@ -312,6 +370,8 @@
         hAxis: {title: 'Year'},
         bar: {groupWidth: "80%"},
         legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("interest_chart"));
       chart.draw(view, options);
@@ -349,6 +409,8 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Percentage'},
             hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('Interest_to_Revenue_chart'));
@@ -389,6 +451,8 @@
         hAxis: {title: 'Year'},
         bar: {groupWidth: "80%"},
         legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("depreciation_chart"));
       chart.draw(view, options);
@@ -426,6 +490,8 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Percentage'},
             hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('Depreciation_to_Revenue_chart'));
@@ -465,6 +531,8 @@
             legend: { position: 'bottom' },
             vAxis: {title: 'Percentage'},
             hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('Tax_chart'));
@@ -478,53 +546,56 @@
 {% block content %}
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col">
-            <div id="EPS_chart" style="width: 1700px; height: 500px;"></div>
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="EPS_chart" style="height: 500px;"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div id="income_chart" style="width: 1700px; height: 500px;"></div>
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="income_chart" style="height: 500px;"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div id="growth_chart" style="width: 700px; height: 500px"></div>
+    <div class="row mb-4">
+        <div class="col-md">
+            <div id="growth_chart" style="height: 500px"></div>
         </div>
-        <div class="col">
-            <div id="5yr_CAGR_chart" style="width: 700px; height: 500px"></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div id="cost_breakup_chart" style="width: 1400px; height: 500px"></div>
+        <div class="col-md">
+            <div id="5yr_CAGR_chart" style="height: 500px"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div id="OPM_chart" style="width: 700px; height: 500px"></div>
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="cost_breakup_chart" style="height: 500px"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div id="interest_chart" style="width: 700px; height: 500px"></div>
+    <div class="row mb-4">
+        <div class="col-md">
+            <div id="OPM_chart" style="height: 500px"></div>
         </div>
-        <div class="col">
-            <div id="Interest_to_Revenue_chart" style="width: 700px; height: 500px"></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div id="depreciation_chart" style="width: 700px; height: 500px"></div>
-        </div>
-        <div class="col">
-            <div id="Depreciation_to_Revenue_chart" style="width: 700px; height: 500px"></div>
+        <div class="col-md">
+            <div id="NPM_chart" style="height: 500px"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div id="Tax_chart" style="width: 700px; height: 500px"></div>
+    <div class="row mb-4">
+        <div class="col-md">
+            <div id="interest_chart" style="height: 500px"></div>
+        </div>
+        <div class="col-md">
+            <div id="Interest_to_Revenue_chart" style="height: 500px"></div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md">
+            <div id="depreciation_chart" style="height: 500px"></div>
+        </div>
+        <div class="col-md">
+            <div id="Depreciation_to_Revenue_chart" style="height: 500px"></div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-sm">
+            <div id="Tax_chart" style="height: 500px"></div>
         </div>
     </div>
 </div>

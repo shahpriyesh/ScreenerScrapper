@@ -1,0 +1,762 @@
+{% extends 'base.html' %}
+
+{% block chart-insert %}
+<!-- Following is Equity chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Equity'],
+          ['{{ dict.head.0 }}',  {{ dict.Equity.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Equity.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Equity.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Equity.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Equity.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Equity.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Equity.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Equity.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Equity Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Equity_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Reserves chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Reserves'],
+          ['{{ dict.head.0 }}',  {{ dict.Reserves.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Reserves.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Reserves.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Reserves.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Reserves.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Reserves.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Reserves.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Reserves.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Reserves Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Reserves_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Borrowings chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Borrowings', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Borrowings.0 }}, "red"],
+          ['{{ dict.head.1 }}',  {{ dict.Borrowings.1 }}, "red"],
+          ['{{ dict.head.2 }}',  {{ dict.Borrowings.2 }}, "red"],
+          ['{{ dict.head.3 }}',  {{ dict.Borrowings.3 }}, "red"],
+          ['{{ dict.head.4 }}',  {{ dict.Borrowings.4 }}, "red"],
+          ['{{ dict.head.5 }}',  {{ dict.Borrowings.5 }}, "red"],
+          ['{{ dict.head.6 }}',  {{ dict.Borrowings.6 }}, "red"],
+          ['{{ dict.head.7 }}',  {{ dict.Borrowings.7 }}, "red"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                         ]);
+
+      var options = {
+        title: "Borrowings Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Borrowings_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Debt Growth chart -->
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Debt Growth', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Debt_Growth.0 }}, "red"],
+          ['{{ dict.head.1 }}',  {{ dict.Debt_Growth.1 }}, "red"],
+          ['{{ dict.head.2 }}',  {{ dict.Debt_Growth.2 }}, "red"],
+          ['{{ dict.head.3 }}',  {{ dict.Debt_Growth.3 }}, "red"],
+          ['{{ dict.head.4 }}',  {{ dict.Debt_Growth.4 }}, "red"],
+          ['{{ dict.head.5 }}',  {{ dict.Debt_Growth.5 }}, "red"],
+          ['{{ dict.head.6 }}',  {{ dict.Debt_Growth.6 }}, "red"],
+          ['{{ dict.head.7 }}',  {{ dict.Debt_Growth.7 }}, "red"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                         ]);
+
+        var options = {
+            title: 'Debt Growth',
+            legend: { position: 'bottom' },
+            vAxis: {title: 'Percentage'},
+            hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
+        };
+
+      var chart = new google.visualization.LineChart(document.getElementById('Debt_Growth_chart'));
+
+      chart.draw(view, options);
+    }
+</script>
+
+<!-- Following is Debt 5yr CAGR chart -->
+<script>
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', '5yr_Debt_CAGR', { role: 'style' }],
+          ['{{ dict.head.5 }}',  {{ dict.5yr_Debt_CAGR.0 }}, "red"],
+          ['{{ dict.head.6 }}',  {{ dict.5yr_Debt_CAGR.1 }}, "red"],
+          ['{{ dict.head.7 }}',  {{ dict.5yr_Debt_CAGR.2 }}, "red"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                         ]);
+
+        var options = {
+            title: 'Borrowings (5yr CAGR)',
+            legend: { position: 'bottom' },
+            vAxis: {title: 'Percentage'},
+            hAxis: {title: 'Year'},
+            backgroundColor: '#E4E4E4',
+            is3D: true,
+        };
+
+      var chart = new google.visualization.LineChart(document.getElementById('5yr_Debt_CAGR_chart'));
+
+      chart.draw(view, options);
+    }
+</script>
+
+<!-- Following is Other Liabilities chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Other Liabilities'],
+          ['{{ dict.head.0 }}',  {{ dict.Other_Liabilities.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Other_Liabilities.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Other_Liabilities.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Other_Liabilities.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Other_Liabilities.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Other_Liabilities.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Other_Liabilities.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Other_Liabilities.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Other Liabilities Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Other_Liabilities_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Payables chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Trade Payables'],
+          ['{{ dict.head.0 }}',  {{ dict.Payables.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Payables.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Payables.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Payables.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Payables.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Payables.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Payables.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Payables.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Trade Payables Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Payables_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Total Liabilities chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Total Liabilities'],
+          ['{{ dict.head.0 }}',  {{ dict.Total_Liabilities.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Total_Liabilities.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Total_Liabilities.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Total_Liabilities.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Total_Liabilities.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Total_Liabilities.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Total_Liabilities.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Total_Liabilities.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Total Liabilities Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Total_Liabilities_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Fixed Assets chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Fixed Assets', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Fixed_Assets.0 }}, "green"],
+          ['{{ dict.head.1 }}',  {{ dict.Fixed_Assets.1 }}, "green"],
+          ['{{ dict.head.2 }}',  {{ dict.Fixed_Assets.2 }}, "green"],
+          ['{{ dict.head.3 }}',  {{ dict.Fixed_Assets.3 }}, "green"],
+          ['{{ dict.head.4 }}',  {{ dict.Fixed_Assets.4 }}, "green"],
+          ['{{ dict.head.5 }}',  {{ dict.Fixed_Assets.5 }}, "green"],
+          ['{{ dict.head.6 }}',  {{ dict.Fixed_Assets.6 }}, "green"],
+          ['{{ dict.head.7 }}',  {{ dict.Fixed_Assets.7 }}, "green"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Fixed Assets Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Fixed_Assets_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Investments chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Investments', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Investments.0 }}, "green"],
+          ['{{ dict.head.1 }}',  {{ dict.Investments.1 }}, "green"],
+          ['{{ dict.head.2 }}',  {{ dict.Investments.2 }}, "green"],
+          ['{{ dict.head.3 }}',  {{ dict.Investments.3 }}, "green"],
+          ['{{ dict.head.4 }}',  {{ dict.Investments.4 }}, "green"],
+          ['{{ dict.head.5 }}',  {{ dict.Investments.5 }}, "green"],
+          ['{{ dict.head.6 }}',  {{ dict.Investments.6 }}, "green"],
+          ['{{ dict.head.7 }}',  {{ dict.Investments.7 }}, "green"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Investments Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Investments_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Other Assets chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Other Assets'],
+          ['{{ dict.head.0 }}',  {{ dict.Other_Assets.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Other_Assets.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Other_Assets.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Other_Assets.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Other_Assets.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Other_Assets.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Other_Assets.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Other_Assets.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Other Assets Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Other_Assets_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Inventories chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Inventories', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Inventories.0 }}, "yellow"],
+          ['{{ dict.head.1 }}',  {{ dict.Inventories.1 }}, "yellow"],
+          ['{{ dict.head.2 }}',  {{ dict.Inventories.2 }}, "yellow"],
+          ['{{ dict.head.3 }}',  {{ dict.Inventories.3 }}, "yellow"],
+          ['{{ dict.head.4 }}',  {{ dict.Inventories.4 }}, "yellow"],
+          ['{{ dict.head.5 }}',  {{ dict.Inventories.5 }}, "yellow"],
+          ['{{ dict.head.6 }}',  {{ dict.Inventories.6 }}, "yellow"],
+          ['{{ dict.head.7 }}',  {{ dict.Inventories.7 }}, "yellow"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Inventories Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Inventories_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Receivables chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Receivables', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Receivables.0 }}, "maroon"],
+          ['{{ dict.head.1 }}',  {{ dict.Receivables.1 }}, "maroon"],
+          ['{{ dict.head.2 }}',  {{ dict.Receivables.2 }}, "maroon"],
+          ['{{ dict.head.3 }}',  {{ dict.Receivables.3 }}, "maroon"],
+          ['{{ dict.head.4 }}',  {{ dict.Receivables.4 }}, "maroon"],
+          ['{{ dict.head.5 }}',  {{ dict.Receivables.5 }}, "maroon"],
+          ['{{ dict.head.6 }}',  {{ dict.Receivables.6 }}, "maroon"],
+          ['{{ dict.head.7 }}',  {{ dict.Receivables.7 }}, "maroon"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Receivables Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Receivables_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Cash chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Cash', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Cash.0 }}, "green"],
+          ['{{ dict.head.1 }}',  {{ dict.Cash.1 }}, "green"],
+          ['{{ dict.head.2 }}',  {{ dict.Cash.2 }}, "green"],
+          ['{{ dict.head.3 }}',  {{ dict.Cash.3 }}, "green"],
+          ['{{ dict.head.4 }}',  {{ dict.Cash.4 }}, "green"],
+          ['{{ dict.head.5 }}',  {{ dict.Cash.5 }}, "green"],
+          ['{{ dict.head.6 }}',  {{ dict.Cash.6 }}, "green"],
+          ['{{ dict.head.7 }}',  {{ dict.Cash.7 }}, "green"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Cash Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Cash_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Loans and Advances chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Loans And Advances', { role: 'style' }],
+          ['{{ dict.head.0 }}',  {{ dict.Loans.0 }}, "maroon"],
+          ['{{ dict.head.1 }}',  {{ dict.Loans.1 }}, "maroon"],
+          ['{{ dict.head.2 }}',  {{ dict.Loans.2 }}, "maroon"],
+          ['{{ dict.head.3 }}',  {{ dict.Loans.3 }}, "maroon"],
+          ['{{ dict.head.4 }}',  {{ dict.Loans.4 }}, "maroon"],
+          ['{{ dict.head.5 }}',  {{ dict.Loans.5 }}, "maroon"],
+          ['{{ dict.head.6 }}',  {{ dict.Loans.6 }}, "maroon"],
+          ['{{ dict.head.7 }}',  {{ dict.Loans.7 }}, "maroon"]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2
+                         ]);
+
+      var options = {
+        title: "Loans and Advances Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Loans_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is ETC Assets chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'ETC Assets'],
+          ['{{ dict.head.0 }}',  {{ dict.ETC_Assets.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.ETC_Assets.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.ETC_Assets.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.ETC_Assets.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.ETC_Assets.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.ETC_Assets.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.ETC_Assets.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.ETC_Assets.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Etc Assets Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Etc_Assets_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Total Assets chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['Year', 'Total Assets'],
+          ['{{ dict.head.0 }}',  {{ dict.Total_Assets.0 }}],
+          ['{{ dict.head.1 }}',  {{ dict.Total_Assets.1 }}],
+          ['{{ dict.head.2 }}',  {{ dict.Total_Assets.2 }}],
+          ['{{ dict.head.3 }}',  {{ dict.Total_Assets.3 }}],
+          ['{{ dict.head.4 }}',  {{ dict.Total_Assets.4 }}],
+          ['{{ dict.head.5 }}',  {{ dict.Total_Assets.5 }}],
+          ['{{ dict.head.6 }}',  {{ dict.Total_Assets.6 }}],
+          ['{{ dict.head.7 }}',  {{ dict.Total_Assets.7 }}]
+        ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Total Assets Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("Total_Assets_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-md">
+      <div id="Equity_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-md">
+      <div id="Reserves_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div id="Borrowings_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-md-4">
+      <div id="Debt_Growth_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-md-4">
+      <div id="5yr_Debt_CAGR_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-sm-4">
+      <div id="Other_Liabilities_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+      <div id="Payables_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+      <div id="Total_Liabilities_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-sm-4">
+      <div id="Fixed_Assets_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+      <div id="Investments_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+      <div id="Other_Assets_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div id="Inventories_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div id="Receivables_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-sm-4">
+      <div id="Cash_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+      <div id="Loans_chart" style="height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+      <div id="Etc_Assets_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-lg">
+      <div id="Total_Assets_chart" style="height: 500px;"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
