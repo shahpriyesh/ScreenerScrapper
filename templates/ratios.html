@@ -138,6 +138,49 @@
   }
 </script>
 
+<!-- Following is Interest Coverage Ratio chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Interest Coverage Ratio');
+      data.addColumn({type:'string', role:'style'});
+
+      {% for x, y in ICRlist %}
+        {% if y < 3 %}
+            data.addRow(['{{ x }}', {{ y }}, "red"]);
+        {% else %}
+            data.addRow(['{{ x }}', {{ y }}, "green"]);
+        {% endif %}
+      {% endfor %}
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         2,
+                         ]);
+
+      var options = {
+        title: "Interest Coverage Ratio",
+        vAxis: {title: 'Percentage'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "none" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("ICR_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
 {% endblock %}
 
 {% block content %}
@@ -150,6 +193,11 @@
     <div class="row mb-4">
         <div class="col-lg">
             <div id="DE_chart" style="height: 500px;"></div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="ICR_chart" style="height: 500px;"></div>
         </div>
         <div class="col-lg">
             <div id="DOFL_chart" style="height: 500px;"></div>

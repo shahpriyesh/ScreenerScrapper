@@ -7,17 +7,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Dividend Payout', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Dividend_Payout.0 }}, "green"],
-          ['{{ dict.head.1 }}',  {{ dict.Dividend_Payout.1 }}, "green"],
-          ['{{ dict.head.2 }}',  {{ dict.Dividend_Payout.2 }}, "green"],
-          ['{{ dict.head.3 }}',  {{ dict.Dividend_Payout.3 }}, "green"],
-          ['{{ dict.head.4 }}',  {{ dict.Dividend_Payout.4 }}, "green"],
-          ['{{ dict.head.5 }}',  {{ dict.Dividend_Payout.5 }}, "green"],
-          ['{{ dict.head.6 }}',  {{ dict.Dividend_Payout.6 }}, "green"],
-          ['{{ dict.head.7 }}',  {{ dict.Dividend_Payout.7 }}, "green"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Dividend Payout');
+
+      {% for year, DP in DPlist %}
+        data.addRow(['{{ year }}', {{ DP }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -25,7 +22,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block chart-insert %}
+
+<!-- Following is Price to Earnings chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Price To Earnings');
+
+      {% for year, PE in PElist %}
+        data.addRow(['{{ year }}', {{ PE }}]);
+      {% endfor %}
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Price to Earnings Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        legend: { position: "bottom" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.LineChart(document.getElementById("PE_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+<!-- Following is Quarterly Price to Earnings chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Quarters');
+      data.addColumn('number', 'Price To Earnings');
+
+      {% for year, dir in dict.quarterlyPE.items %}
+        {% for quarter, pe in dir.items %}
+            data.addRow(['{{ year }}-{{ quarter }}', {{ pe }}]);
+        {% endfor %}
+      {% endfor %}
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                         ]);
+
+      var options = {
+        title: "Price to Earnings Chart",
+        vAxis: {title: 'Rupees'},
+        hAxis: {title: 'Year'},
+        bar: {groupWidth: "80%"},
+        legend: { position: "bottom" },
+        backgroundColor: '#E4E4E4',
+        is3D: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("QPE_chart"));
+      chart.draw(view, options);
+  }
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="PE_chart" style="height: 500px;"></div>
+        </div>
+        <h5>avg PE = {{ dict.avg_PE }}</h5>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg">
+            <div id="QPE_chart" style="height: 500px;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

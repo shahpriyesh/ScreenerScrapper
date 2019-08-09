@@ -7,17 +7,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Equity'],
-          ['{{ dict.head.0 }}',  {{ dict.Equity.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Equity.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Equity.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Equity.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Equity.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Equity.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Equity.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Equity.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Equity');
+
+      {% for year, Equity in Equitylist %}
+        data.addRow(['{{ year }}', {{ Equity }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -47,17 +44,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Reserves'],
-          ['{{ dict.head.0 }}',  {{ dict.Reserves.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Reserves.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Reserves.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Reserves.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Reserves.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Reserves.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Reserves.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Reserves.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Reserves');
+
+      {% for year, Reserves in Reserveslist %}
+        data.addRow(['{{ year }}', {{ Reserves }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -87,17 +81,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Borrowings', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Borrowings.0 }}, "red"],
-          ['{{ dict.head.1 }}',  {{ dict.Borrowings.1 }}, "red"],
-          ['{{ dict.head.2 }}',  {{ dict.Borrowings.2 }}, "red"],
-          ['{{ dict.head.3 }}',  {{ dict.Borrowings.3 }}, "red"],
-          ['{{ dict.head.4 }}',  {{ dict.Borrowings.4 }}, "red"],
-          ['{{ dict.head.5 }}',  {{ dict.Borrowings.5 }}, "red"],
-          ['{{ dict.head.6 }}',  {{ dict.Borrowings.6 }}, "red"],
-          ['{{ dict.head.7 }}',  {{ dict.Borrowings.7 }}, "red"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Borrowings');
+
+      {% for year, Borrowings in Borrowingslist %}
+        data.addRow(['{{ year }}', {{ Borrowings }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -105,7 +96,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2,
                          ]);
 
       var options = {
@@ -116,6 +106,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["red"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Borrowings_chart"));
       chart.draw(view, options);
@@ -128,17 +119,14 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Debt Growth', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Debt_Growth.0 }}, "red"],
-          ['{{ dict.head.1 }}',  {{ dict.Debt_Growth.1 }}, "red"],
-          ['{{ dict.head.2 }}',  {{ dict.Debt_Growth.2 }}, "red"],
-          ['{{ dict.head.3 }}',  {{ dict.Debt_Growth.3 }}, "red"],
-          ['{{ dict.head.4 }}',  {{ dict.Debt_Growth.4 }}, "red"],
-          ['{{ dict.head.5 }}',  {{ dict.Debt_Growth.5 }}, "red"],
-          ['{{ dict.head.6 }}',  {{ dict.Debt_Growth.6 }}, "red"],
-          ['{{ dict.head.7 }}',  {{ dict.Debt_Growth.7 }}, "red"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Debt Growth');
+
+      {% for year, Debt_Growth in DGlist %}
+        data.addRow(['{{ year }}', {{ Debt_Growth }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -146,7 +134,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2,
                          ]);
 
         var options = {
@@ -156,6 +143,7 @@
             hAxis: {title: 'Year'},
             backgroundColor: '#E4E4E4',
             is3D: true,
+            colors: ["red"],
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('Debt_Growth_chart'));
@@ -170,12 +158,14 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', '5yr_Debt_CAGR', { role: 'style' }],
-          ['{{ dict.head.5 }}',  {{ dict.5yr_Debt_CAGR.0 }}, "red"],
-          ['{{ dict.head.6 }}',  {{ dict.5yr_Debt_CAGR.1 }}, "red"],
-          ['{{ dict.head.7 }}',  {{ dict.5yr_Debt_CAGR.2 }}, "red"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Debt CAGR');
+
+      {% for year, Debt_CAGR in DCAGRlist %}
+        data.addRow(['{{ year }}', {{ Debt_CAGR }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -183,7 +173,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2,
                          ]);
 
         var options = {
@@ -193,6 +182,7 @@
             hAxis: {title: 'Year'},
             backgroundColor: '#E4E4E4',
             is3D: true,
+            colors: ["red"],
         };
 
       var chart = new google.visualization.LineChart(document.getElementById('5yr_Debt_CAGR_chart'));
@@ -207,17 +197,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Other Liabilities'],
-          ['{{ dict.head.0 }}',  {{ dict.Other_Liabilities.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Other_Liabilities.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Other_Liabilities.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Other_Liabilities.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Other_Liabilities.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Other_Liabilities.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Other_Liabilities.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Other_Liabilities.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Other Liabilities');
+
+      {% for year, OL in OLlist %}
+        data.addRow(['{{ year }}', {{ OL }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -247,17 +234,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Trade Payables'],
-          ['{{ dict.head.0 }}',  {{ dict.Payables.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Payables.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Payables.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Payables.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Payables.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Payables.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Payables.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Payables.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Payables');
+
+      {% for year, Payables in Payableslist %}
+        data.addRow(['{{ year }}', {{ Payables }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -287,17 +271,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Total Liabilities'],
-          ['{{ dict.head.0 }}',  {{ dict.Total_Liabilities.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Total_Liabilities.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Total_Liabilities.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Total_Liabilities.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Total_Liabilities.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Total_Liabilities.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Total_Liabilities.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Total_Liabilities.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Total Liabilities');
+
+      {% for year, TL in TLlist %}
+        data.addRow(['{{ year }}', {{ TL }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -327,17 +308,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Fixed Assets', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Fixed_Assets.0 }}, "green"],
-          ['{{ dict.head.1 }}',  {{ dict.Fixed_Assets.1 }}, "green"],
-          ['{{ dict.head.2 }}',  {{ dict.Fixed_Assets.2 }}, "green"],
-          ['{{ dict.head.3 }}',  {{ dict.Fixed_Assets.3 }}, "green"],
-          ['{{ dict.head.4 }}',  {{ dict.Fixed_Assets.4 }}, "green"],
-          ['{{ dict.head.5 }}',  {{ dict.Fixed_Assets.5 }}, "green"],
-          ['{{ dict.head.6 }}',  {{ dict.Fixed_Assets.6 }}, "green"],
-          ['{{ dict.head.7 }}',  {{ dict.Fixed_Assets.7 }}, "green"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Fixed Assets');
+
+      {% for year, FA in FAlist %}
+        data.addRow(['{{ year }}', {{ FA }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -345,7 +323,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -356,6 +333,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["green"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Fixed_Assets_chart"));
       chart.draw(view, options);
@@ -368,17 +346,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Investments', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Investments.0 }}, "green"],
-          ['{{ dict.head.1 }}',  {{ dict.Investments.1 }}, "green"],
-          ['{{ dict.head.2 }}',  {{ dict.Investments.2 }}, "green"],
-          ['{{ dict.head.3 }}',  {{ dict.Investments.3 }}, "green"],
-          ['{{ dict.head.4 }}',  {{ dict.Investments.4 }}, "green"],
-          ['{{ dict.head.5 }}',  {{ dict.Investments.5 }}, "green"],
-          ['{{ dict.head.6 }}',  {{ dict.Investments.6 }}, "green"],
-          ['{{ dict.head.7 }}',  {{ dict.Investments.7 }}, "green"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Investments');
+
+      {% for year, Investments in Investmentslist %}
+        data.addRow(['{{ year }}', {{ Investments }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -386,7 +361,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -397,6 +371,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["green"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Investments_chart"));
       chart.draw(view, options);
@@ -409,17 +384,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Other Assets'],
-          ['{{ dict.head.0 }}',  {{ dict.Other_Assets.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Other_Assets.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Other_Assets.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Other_Assets.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Other_Assets.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Other_Assets.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Other_Assets.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Other_Assets.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Other Assets');
+
+      {% for year, OA in OAlist %}
+        data.addRow(['{{ year }}', {{ OA }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -449,17 +421,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Inventories', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Inventories.0 }}, "yellow"],
-          ['{{ dict.head.1 }}',  {{ dict.Inventories.1 }}, "yellow"],
-          ['{{ dict.head.2 }}',  {{ dict.Inventories.2 }}, "yellow"],
-          ['{{ dict.head.3 }}',  {{ dict.Inventories.3 }}, "yellow"],
-          ['{{ dict.head.4 }}',  {{ dict.Inventories.4 }}, "yellow"],
-          ['{{ dict.head.5 }}',  {{ dict.Inventories.5 }}, "yellow"],
-          ['{{ dict.head.6 }}',  {{ dict.Inventories.6 }}, "yellow"],
-          ['{{ dict.head.7 }}',  {{ dict.Inventories.7 }}, "yellow"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Inventories');
+
+      {% for year, Inventories in Inventorieslist %}
+        data.addRow(['{{ year }}', {{ Inventories }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -467,7 +436,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -478,6 +446,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["yellow"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Inventories_chart"));
       chart.draw(view, options);
@@ -490,17 +459,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Receivables', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Receivables.0 }}, "maroon"],
-          ['{{ dict.head.1 }}',  {{ dict.Receivables.1 }}, "maroon"],
-          ['{{ dict.head.2 }}',  {{ dict.Receivables.2 }}, "maroon"],
-          ['{{ dict.head.3 }}',  {{ dict.Receivables.3 }}, "maroon"],
-          ['{{ dict.head.4 }}',  {{ dict.Receivables.4 }}, "maroon"],
-          ['{{ dict.head.5 }}',  {{ dict.Receivables.5 }}, "maroon"],
-          ['{{ dict.head.6 }}',  {{ dict.Receivables.6 }}, "maroon"],
-          ['{{ dict.head.7 }}',  {{ dict.Receivables.7 }}, "maroon"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Receivables');
+
+      {% for year, Receivables in Receivableslist %}
+        data.addRow(['{{ year }}', {{ Receivables }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -508,7 +474,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -519,6 +484,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["maroon"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Receivables_chart"));
       chart.draw(view, options);
@@ -531,17 +497,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Cash', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Cash.0 }}, "green"],
-          ['{{ dict.head.1 }}',  {{ dict.Cash.1 }}, "green"],
-          ['{{ dict.head.2 }}',  {{ dict.Cash.2 }}, "green"],
-          ['{{ dict.head.3 }}',  {{ dict.Cash.3 }}, "green"],
-          ['{{ dict.head.4 }}',  {{ dict.Cash.4 }}, "green"],
-          ['{{ dict.head.5 }}',  {{ dict.Cash.5 }}, "green"],
-          ['{{ dict.head.6 }}',  {{ dict.Cash.6 }}, "green"],
-          ['{{ dict.head.7 }}',  {{ dict.Cash.7 }}, "green"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Cash');
+
+      {% for year, Cash in Cashlist %}
+        data.addRow(['{{ year }}', {{ Cash }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -549,7 +512,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -560,6 +522,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["green"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Cash_chart"));
       chart.draw(view, options);
@@ -572,17 +535,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Loans And Advances', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.Loans.0 }}, "maroon"],
-          ['{{ dict.head.1 }}',  {{ dict.Loans.1 }}, "maroon"],
-          ['{{ dict.head.2 }}',  {{ dict.Loans.2 }}, "maroon"],
-          ['{{ dict.head.3 }}',  {{ dict.Loans.3 }}, "maroon"],
-          ['{{ dict.head.4 }}',  {{ dict.Loans.4 }}, "maroon"],
-          ['{{ dict.head.5 }}',  {{ dict.Loans.5 }}, "maroon"],
-          ['{{ dict.head.6 }}',  {{ dict.Loans.6 }}, "maroon"],
-          ['{{ dict.head.7 }}',  {{ dict.Loans.7 }}, "maroon"]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Loans');
+
+      {% for year, Loans in Loanslist %}
+        data.addRow(['{{ year }}', {{ Loans }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -590,7 +550,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -601,6 +560,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        colors: ["maroon"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("Loans_chart"));
       chart.draw(view, options);
@@ -613,17 +573,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'ETC Assets'],
-          ['{{ dict.head.0 }}',  {{ dict.ETC_Assets.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.ETC_Assets.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.ETC_Assets.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.ETC_Assets.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.ETC_Assets.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.ETC_Assets.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.ETC_Assets.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.ETC_Assets.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Etc Assets');
+
+      {% for year, Etc in Etclist %}
+        data.addRow(['{{ year }}', {{ Etc }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -653,17 +610,14 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Total Assets'],
-          ['{{ dict.head.0 }}',  {{ dict.Total_Assets.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Total_Assets.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Total_Assets.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Total_Assets.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Total_Assets.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Total_Assets.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Total_Assets.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Total_Assets.7 }}]
-        ]);
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Total Assets');
+
+      {% for year, TA in TAlist %}
+        data.addRow(['{{ year }}', {{ TA }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,

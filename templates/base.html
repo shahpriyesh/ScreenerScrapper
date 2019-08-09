@@ -22,6 +22,8 @@
         <form role="form" method="POST" action="/StockAnalyzer/"> {% csrf_token %}
                     <label for="URL">URL</label>
                     <input name="URL" id="URL" type="text" class="form-control" placeholder="https://Screener.in/company/TCS/"/>
+                    <label for="Ticker">Ticker</label>
+                    <input name="Ticker" id="Ticker" type="text" class="form-control" placeholder="NSE:TCS"/>
                 <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         </div>
@@ -35,6 +37,7 @@
             <li> <a href="/StockAnalyzer/balancesheet" class="btn btn-primary mx-4">Balance Sheet</a> </li>
             <li> <a href="/StockAnalyzer/dividend" class="btn btn-primary mx-4">Dividend</a> </li>
             <li> <a href="/StockAnalyzer/ratios" class="btn btn-primary mx-4">Ratios</a> </li>
+            <li> <a href="/StockAnalyzer/price" class="btn btn-primary mx-4">Price</a> </li>
         </ul>
     </div>
 

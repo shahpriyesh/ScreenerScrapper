@@ -6,18 +6,17 @@
   <script type="text/javascript">
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
+
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'EPS', { role: 'style' }],
-          ['{{ dict.head.0 }}',  {{ dict.EPS.0 }}, "gold"],
-          ['{{ dict.head.1 }}',  {{ dict.EPS.1 }}, "gold"],
-          ['{{ dict.head.2 }}',  {{ dict.EPS.2 }}, "gold"],
-          ['{{ dict.head.3 }}',  {{ dict.EPS.3 }}, "gold"],
-          ['{{ dict.head.4 }}',  {{ dict.EPS.4 }}, "gold"],
-          ['{{ dict.head.5 }}',  {{ dict.EPS.5 }}, "gold"],
-          ['{{ dict.head.6 }}',  {{ dict.EPS.6 }}, "gold"],
-          ['{{ dict.head.7 }}',  {{ dict.EPS.7 }}, "gold"]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'EPS');
+
+      {% for year, EPS in EPSlist %}
+        data.addRow(['{{ year }}', {{ EPS }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -25,7 +24,6 @@
                          sourceColumn: 1,
                          type: "string",
                          role: "annotation" },
-                         2
                          ]);
 
       var options = {
@@ -36,6 +34,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        color: ["gold"]
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("EPS_chart"));
       chart.draw(view, options);
@@ -281,17 +280,15 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'YoY_Sales_Growth'],
-          ['{{ dict.head.0 }}',  {{ dict.YoY_Growth.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.YoY_Growth.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.YoY_Growth.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.YoY_Growth.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.YoY_Growth.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.YoY_Growth.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.YoY_Growth.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.YoY_Growth.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'YoY_Sales_Growth');
+
+      {% for year, YoY_Growth in Growthlist %}
+        data.addRow(['{{ year }}', {{ YoY_Growth }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -322,17 +319,18 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Material Cost', 'Employee Cost', 'Manufacturing Cost', 'Other Cost'],
-          ['{{ dict.head.0 }}',  {{ dict.Material_Cost.0 }}, {{ dict.Employee_Cost.0 }}, {{ dict.Manufacturing_Cost.0 }}, {{ dict.Other_Cost.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Material_Cost.1 }}, {{ dict.Employee_Cost.1 }}, {{ dict.Manufacturing_Cost.1 }}, {{ dict.Other_Cost.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Material_Cost.2 }}, {{ dict.Employee_Cost.2 }}, {{ dict.Manufacturing_Cost.2 }}, {{ dict.Other_Cost.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Material_Cost.3 }}, {{ dict.Employee_Cost.3 }}, {{ dict.Manufacturing_Cost.3 }}, {{ dict.Other_Cost.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Material_Cost.4 }}, {{ dict.Employee_Cost.4 }}, {{ dict.Manufacturing_Cost.4 }}, {{ dict.Other_Cost.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Material_Cost.5 }}, {{ dict.Employee_Cost.5 }}, {{ dict.Manufacturing_Cost.5 }}, {{ dict.Other_Cost.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Material_Cost.6 }}, {{ dict.Employee_Cost.6 }}, {{ dict.Manufacturing_Cost.6 }}, {{ dict.Other_Cost.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Material_Cost.7 }}, {{ dict.Employee_Cost.7 }}, {{ dict.Manufacturing_Cost.7 }}, {{ dict.Other_Cost.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Material Cost');
+      data.addColumn('number', 'Employee Cost');
+      data.addColumn('number', 'Manufacturing Cost');
+      data.addColumn('number', 'Other Cost');
+
+      {% for year, Material_Cost, Employee_Cost, Manufacturing_Cost, Other_Cost in Costlist %}
+        data.addRow(['{{ year }}', {{ Material_Cost }}, {{ Employee_Cost }}, {{ Manufacturing_Cost }}, {{ Other_Cost }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -379,17 +377,15 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'OPM'],
-          ['{{ dict.head.0 }}',  {{ dict.OPM.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.OPM.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.OPM.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.OPM.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.OPM.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.OPM.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.OPM.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.OPM.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'OPM');
+
+      {% for year, OPM in OPMlist %}
+        data.addRow(['{{ year }}', {{ OPM }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -414,58 +410,41 @@
     }
 </script>
 
-<!-- Following is Cost Breakup chart -->
+<!-- Following is NPM chart -->
 <script>
-    google.charts.load("current", {packages:['corechart']});
+    google.charts.load('current', {packages: ['corechart', 'line']});
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Material Cost', 'Employee Cost', 'Manufacturing Cost', 'Other Cost'],
-          ['{{ dict.head.0 }}',  {{ dict.Material_Cost.0 }}, {{ dict.Employee_Cost.0 }}, {{ dict.Manufacturing_Cost.0 }}, {{ dict.Other_Cost.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Material_Cost.1 }}, {{ dict.Employee_Cost.1 }}, {{ dict.Manufacturing_Cost.1 }}, {{ dict.Other_Cost.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Material_Cost.2 }}, {{ dict.Employee_Cost.2 }}, {{ dict.Manufacturing_Cost.2 }}, {{ dict.Other_Cost.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Material_Cost.3 }}, {{ dict.Employee_Cost.3 }}, {{ dict.Manufacturing_Cost.3 }}, {{ dict.Other_Cost.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Material_Cost.4 }}, {{ dict.Employee_Cost.4 }}, {{ dict.Manufacturing_Cost.4 }}, {{ dict.Other_Cost.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Material_Cost.5 }}, {{ dict.Employee_Cost.5 }}, {{ dict.Manufacturing_Cost.5 }}, {{ dict.Other_Cost.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Material_Cost.6 }}, {{ dict.Employee_Cost.6 }}, {{ dict.Manufacturing_Cost.6 }}, {{ dict.Other_Cost.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Material_Cost.7 }}, {{ dict.Employee_Cost.7 }}, {{ dict.Manufacturing_Cost.7 }}, {{ dict.Other_Cost.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'NPM');
+
+      {% for year, NPM in NPMlist %}
+        data.addRow(['{{ year }}', {{ NPM }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
                        { calc: "stringify",
                          sourceColumn: 1,
                          type: "string",
-                         role: "annotation" },
-                         2,
-                         { calc: "stringify",
-                         sourceColumn: 2,
-                         type: "string",
-                         role: "annotation" },
-                         3,
-                         { calc: "stringify",
-                         sourceColumn: 3,
-                         type: "string",
-                         role: "annotation" },
-                         4,
-                         { calc: "stringify",
-                         sourceColumn: 4,
-                         type: "string",
-                         role: "annotation" },
+                         role: "annotation" }
                          ]);
 
         var options = {
-            title: 'Cost Breakup',
+            title: 'NPM',
             legend: { position: 'bottom' },
-            vAxis: {title: 'Year'},
-            hAxis: {title: 'Percentage'},
-            isStacked: true,
+            vAxis: {title: 'Percentage'},
+            hAxis: {title: 'Year'},
             backgroundColor: '#E4E4E4',
             is3D: true,
+            color: ["gold"],
         };
 
-      var chart = new google.visualization.BarChart(document.getElementById('cost_breakup_chart'));
+      var chart = new google.visualization.LineChart(document.getElementById('NPM_chart'));
 
       chart.draw(view, options);
     }
@@ -477,17 +456,15 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Interest'],
-          ['{{ dict.head.0 }}',  {{ dict.Interest.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Interest.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Interest.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Interest.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Interest.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Interest.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Interest.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Interest.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Interest');
+
+      {% for year, Interest in Interestlist %}
+        data.addRow(['{{ year }}', {{ Interest }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -505,6 +482,7 @@
         legend: { position: "none" },
         backgroundColor: '#E4E4E4',
         is3D: true,
+        color: ["red"],
       };
       var chart = new google.visualization.ColumnChart(document.getElementById("interest_chart"));
       chart.draw(view, options);
@@ -517,17 +495,20 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Interest_to_Revenue'],
-          ['{{ dict.head.0 }}',  {{ dict.Interest_to_Revenue.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Interest_to_Revenue.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Interest_to_Revenue.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Interest_to_Revenue.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Interest_to_Revenue.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Interest_to_Revenue.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Interest_to_Revenue.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Interest_to_Revenue.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Interest/Revenue');
+      data.addColumn({type:'string', role:'style'});
+
+      {% for year, Interest_to_Revenue in InterestToRevenuelist %}
+        {% if Interest_to_Revenue > 0.1 %}
+            data.addRow(['{{ year }}', {{ Interest_to_Revenue }}, "red"]);
+        {% else %}
+            data.addRow(['{{ year }}', {{ Interest_to_Revenue }}, "green"]);
+        {% endif %}
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -558,17 +539,15 @@
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-          ['Year', 'Depreciation'],
-          ['{{ dict.head.0 }}',  {{ dict.Depreciation.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Depreciation.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Depreciation.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Depreciation.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Depreciation.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Depreciation.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Depreciation.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Depreciation.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Depreciation');
+
+      {% for year, Depreciation in Depreciationlist %}
+        data.addRow(['{{ year }}', {{ Depreciation }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -598,17 +577,20 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Depreciation_to_Revenue'],
-          ['{{ dict.head.0 }}',  {{ dict.Depreciation_to_Revenue.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Depreciation_to_Revenue.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Depreciation_to_Revenue.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Depreciation_to_Revenue.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Depreciation_to_Revenue.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Depreciation_to_Revenue.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Depreciation_to_Revenue.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Depreciation_to_Revenue.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Depreciation/Revenue');
+      data.addColumn({type:'string', role:'style'});
+
+      {% for year, Depreciation_to_Revenue in DepreciationToRevenuelist %}
+        {% if Depreciation_to_Revenue > 0.1 %}
+            data.addRow(['{{ year }}', {{ Depreciation_to_Revenue }}, "red"]);
+        {% else %}
+            data.addRow(['{{ year }}', {{ Depreciation_to_Revenue }}, "green"]);
+        {% endif %}
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -639,17 +621,15 @@
     google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Tax'],
-          ['{{ dict.head.0 }}',  {{ dict.Tax.0 }}],
-          ['{{ dict.head.1 }}',  {{ dict.Tax.1 }}],
-          ['{{ dict.head.2 }}',  {{ dict.Tax.2 }}],
-          ['{{ dict.head.3 }}',  {{ dict.Tax.3 }}],
-          ['{{ dict.head.4 }}',  {{ dict.Tax.4 }}],
-          ['{{ dict.head.5 }}',  {{ dict.Tax.5 }}],
-          ['{{ dict.head.6 }}',  {{ dict.Tax.6 }}],
-          ['{{ dict.head.7 }}',  {{ dict.Tax.7 }}]
-        ]);
+
+      var data = new google.visualization.DataTable();
+
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Tax');
+
+      {% for year, Tax in Taxlist %}
+        data.addRow(['{{ year }}', {{ Tax }}]);
+      {% endfor %}
 
       var view = new google.visualization.DataView(data);
       view.setColumns([0, 1,
@@ -703,6 +683,9 @@
         </div>
         <div class="col-md">
             <div id="OPM_chart" style="height: 500px;"></div>
+        </div>
+        <div class="col-md">
+            <div id="NPM_chart" style="height: 500px;"></div>
         </div>
     </div>
     <div class="row mb-4">

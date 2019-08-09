@@ -2,18 +2,27 @@ import requests
 import time
 import re
 import math
+import json
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
 
 class ScreenerScrapper():
-    def __init__(self, url):
+    def __init__(self, url, ticker):
         self.url = url
+        self.ticker = ticker
         #self.response = requests.get(url)
         self.driver = webdriver.Chrome("/usr/local/bin/chromedriver")
         self.soup = None
         #BeautifulSoup(self.response.text, "html.parser")
         self.table_info = {}
+        self.price_info = {}
+
+    def getPriceInfo(self):
+        price_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" + self.ticker + "&outputsize=full&apikey=ZAKJRICQN9BOQI8H"
+        response = requests.get(price_url)
+        price_info = json.loads(response.content)
+        return price_info
 
     def scrapUsingSelenium(self):
         self.driver.implicitly_wait(5)

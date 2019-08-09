@@ -9,4 +9,5 @@ urlpatterns = [
     path('balancesheet/', views.balance_sheet_view, name='balancesheet'),
     path('dividend/', views.dividend_view, name='dividend'),
     path('ratios/', views.ratios_view, name='ratios'),
+    path('price/', views.price_view, name='price'),
 ]
